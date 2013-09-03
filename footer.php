@@ -3,7 +3,7 @@
 function show_footer() {
 ?>
 <div class="footer">
-<p>copyright @ 2011 by chenrui</p>
+<p>CopyRight @ 2011 by UnitOne</p>
 </div>
 </div>
 </body>
