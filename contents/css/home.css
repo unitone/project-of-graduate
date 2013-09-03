@@ -1,0 +1,71 @@
+.left-sidebar {
+	width: 190px;
+	padding: 10px 0 0 10px;
+}
+
+.content {
+	width: 758px;
+	padding: 5px;
+	border-left: 1px #B3B3B3 solid;
+	border-bottom: 1px #B3B3B3 solid;
+	border-right: 1px #B3B3B3 solid;
+}
+
+.feel {
+	width: 500px;
+}
+
+.comment {
+	padding: 5px;
+	border-bottom: 1px solid #E6EFF7;
+}
+
+.comment dl {
+	padding: 0;
+	margin: 0;
+}
+
+.comment dl dt{
+	float: left;
+}
+
+.comment_rely {
+	background-color: #F3FAFF;
+}
+
+.personal {
+	margin-top: 10px;
+	color: #3B59AA;
+	font-weight: bold;
+}
+
+.left-navigation {
+	margin-top: 10px;
+}
+
+.left-navigation ul {
+	padding-top: 10px;
+	margin: 0;
+	display:inline;
+}
+
+.left-navigation ul li {
+	list-style-type: none;
+	display: inline;
+}
+
+.left-navigation a {
+	display: block;
+	color: #333333;
+	padding: 5px;
+	text-decoration: none;
+}
+
+.left-navigation a:hover {
+	background-color: #EFF2F7;
+	text-decoration: none;
+}
+
+.feel-user {
+	color: #3B5998;
+} 

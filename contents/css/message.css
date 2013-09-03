@@ -1,0 +1,42 @@
+.content {
+	width: 928px;
+	padding: 20px;
+	border-left: 1px #B3B3B3 solid;
+	border-bottom: 1px #B3B3B3 solid;
+	border-right: 1px #B3B3B3 solid;
+}
+
+.message-box h1 {
+	font-size: 16px;
+	padding-bottom: 10px;
+	border-bottom: 1px #CEE1EE solid;
+}
+
+.message-list {
+	margin-left: 10px;
+}
+
+.message-title h1 {
+	padding-bottom: 10px;
+	font-size: 18px;
+	border-bottom: 1px #CEE1EE solid;
+}
+
+.message-list table {
+	font-size: 12px;
+}
+
+.message-list table td {
+	margin-bottom: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px #CCCCCC solid;
+}
+
+.td-title {
+	width: 500px;
+}
+
+.td-delete {
+	width: 100px;
+}
