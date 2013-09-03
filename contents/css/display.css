@@ -34,3 +34,8 @@ h1 {
 	width: 500px;
 	background-color: #F3FAFF;
 }
+
+.content img {
+	width: 800px;
+	height: 600px;
+}

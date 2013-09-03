@@ -30,8 +30,10 @@ function search_results_display( $arrs ) {
 function SearchAndDisplayResult( $q ) {
 	global $db;
 	
-	if ( is_null( $q ) || empty( $q ) )
+	if ( is_null( $q ) || empty( $q ) ) {
+		echo '<p>查找信息不能为空</p>';
 		return;
+	}
 	
 	$q = trim( $q );
 	$type = $_POST['type'];
@@ -81,7 +83,7 @@ function search_choose_box() { ?>
 				</form>
 			</td>
 		</tr>
-		<tr>
+<!--		<tr>
 			<td class="name">
 			对方ID :
 			</td>
@@ -92,7 +94,7 @@ function search_choose_box() { ?>
 					<input type="hidden" name="type" value="id">
 				</form>
 			</td>
-		</tr>
+		</tr>-->
 	</tbody>
 </table>
 </div><?php

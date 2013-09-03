@@ -27,8 +27,12 @@ case 'post':
 	<h1>发送信息</h1>
 <?php
 	if ( isset( $_POST['do'] ) ) {
-		send_message( $_POST['title'], $_POST['content'], $_POST['to']);
-		echo '<div class="message-span"><span>发送成功,请等待对方查阅.</span></div>';
+		$bool = send_message( $_POST['title'], $_POST['content'], $_POST['to']);
+		if ( $bool ) {
+			echo '<div class="message-span"><span>发送成功，请等待对方查阅。</span></div>';
+		} else {
+			echo '<div class="message-span"><span>发送失败</span></div>';
+		}
 	}
 	message_form( $toid );
 ?>
@@ -58,6 +62,3 @@ default:
 ?>
 </div>
 <?php show_footer(); ?>
-</div>
-</body>
-</html>

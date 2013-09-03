@@ -2,8 +2,12 @@
 
 include( 'load.php' );
 
-function post_display( $id ) { 
+if ( isset ( $_REQUEST['action'] ) && $_REQUEST['action'] == 'delcomment' ) {
+	delete_single_comment( $_REQUEST['commentid'] );
+}
 
+function post_display( $id ) { 
+	global $user;
 	$post = get_current_post( $id );
 
 ?>
@@ -11,7 +15,7 @@ function post_display( $id ) {
 <div class="post-title">
 		<h1><?php echo $post['title']?></h1>
 		<p><?php echo $post['date']; ?> | 分类 : <?php get_category_by_id( $post['categoryid'] ); ?></p>
-		<p><a href="post.php?action=update&id=<?php echo $id; ?>">更新</a></p>
+		<?php if ( $post['userid'] == $user->id ) { ?><p><a href="post.php?action=update&id=<?php echo $id; ?>">更新</a></p><?php } ?>
 	</div>
 	<div class="content">
 		<p><?php echo $post['content']; ?></p>
@@ -52,6 +56,3 @@ if ( isset( $_POST['do'] ) ) {
 ?>
 </div>
 <?php show_footer(); ?>
-</div>
-</body>
-</html>

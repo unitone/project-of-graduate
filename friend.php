@@ -59,12 +59,9 @@ show_nav();
 switch( $action ) {
 case 'add':
 	add_friend_step( $_REQUEST['id'] );
+	echo '<p>添加好友信息己发送，请等待对方确认！</p>';
 	break;
-case 'friend_valution':
-	if ( isset( $_REQUEST['want'] ) && $_REQUEST['want'] == 'yes' ) {
-		add_friend( $_REQUEST['id'] );
-	}
-	break;
+
 case 'search':
 	search_choose_box();
 	break;
@@ -72,9 +69,22 @@ case 'result':
 	$q = isset( $_POST['q'] ) ? $_POST['q'] : '';
 	SearchAndDisplayResult( $q );
 	break;
-case 'delete':
-	delet_friend( $_REQUEST['id'] );
+case 'friend_valution':
+	if ( isset( $_REQUEST['want'] ) && $_REQUEST['want'] == 'yes' ) {
+		add_friend( $_REQUEST['id'] );
+		echo '<p>添加好友成功</p>';
+		send_message( "好友申请已通过", "你的好友申请已通过", $_REQUEST['id'] );
+	}
+	if ( isset( $_REQUEST['want'] ) && $_REQUEST['want'] == 'no' ) {
+		add_friend( $_REQUEST['id'] );
+		echo '<p>添加好友不通过</p>';
+		send_message( "好友申请不通过", "你的好友申请不通过", $_REQUEST['id'] );
+	}
 	break;
+case 'delete':
+	if ( isset( $_REQUEST['id'] ) ) {
+		delet_friend( $_REQUEST['id'] );
+	}
 default:
 	show_friend_list();
 	break;
@@ -82,7 +92,4 @@ default:
 ?>
 </div>
 <?php show_footer(); ?>
-</div>
-</body>
-</html>
 

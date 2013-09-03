@@ -14,7 +14,7 @@ function add_friend_step( $friend_id ) {
 	}	
 		
 	$title = "添加好友";
-	$content = "你好,{$user->name}想添加你为好友，是否同意？";
+	$content = '你好,<a href="user.php?sid=' . $user->id . '" target="_blank">' . $user->name . '</a>想添加你为好友，是否同意？';
 	$content .= '<a href="friend.php?action=friend_valution&want=yes&id=' . $user->id . '">同意</a> - ';
 	$content .= '<a href="friend.php?action=friend_valution&want=no&id=' . $user->id . '">不同意</a>';
 	send_message( $title, $content, $friend_id );
@@ -48,6 +48,7 @@ function delet_friend( $friend_id ) {
 		return;
 		
 	$db->query( $db->prepare( "DELETE FROM friend WHERE friendid = %d AND userid = %d", $friend_id, $user->id ) );
+	$db->query( $db->prepare( "DELETE FROM friend WHERE userid = %d AND friendid = %d", $friend_id, $user->id ) );
 }
 
 function add_friend_group( $name ) {
@@ -62,6 +63,17 @@ function add_friend_group( $name ) {
 	$db->insert( 'friend_group', $data );
 }
 
+function delete_friend_group( $group_id ) {
+	global $db, $user;
+	
+	$db->query( $db->prepare( "DELETE FROM friend_group WHRER id = %d AND userid = %d", $group_id, $user->id ) );
+	
+	$friends = get_friends();
+	foreach ( $friends as $friend ) {
+		update_group( $friend[id], 0 );
+	}
+}
+
 function show_friend_list() {
 	global $db, $user;		
 	
@@ -70,8 +82,13 @@ function show_friend_list() {
 		$query .= " AND groupid = " . $_REQUEST['id'];
 	}
 	$friendid = $db->get_results( $db->prepare( $query, $user->id ), ARRAY_A );
-	if ( empty( $friendid ) )
+	if ( isset( $_REQUEST['sort'] ) && empty( $friendid ) ) {
+		echo '<div class="group-c"><a href="?action=deletegroup&groupid=' . $_REQUEST['id'] . '">删除分组</a></div>';
+		echo '<p>该分类还没有好友</p>';
 		return;	
+	} elseif ( empty( $friendid )) {
+		echo '<p>你还没有添加好友</p>';
+	}
 	
 	$results = array();
 	foreach ( $friendid as $fid ) {
@@ -108,6 +125,7 @@ function show_friend_list() {
 		}
 		$output .= '</table>';
 	}
+	
 	echo $output;
 }
 
@@ -186,7 +204,7 @@ function delete_group( $groupid ) {
 	
 	$results = $db->get_results( $db->prepare( "SELECT * FROM friend WHERE userid = %d AND groupid = %d", $user->id, $groupid ), ARRAY_A );
 
-	$db->query( $db->prepare( "UPDATE friend SET groupid = 0 WHERE groupid = %d", $groupid ) );
+	$db->query( $db->prepare( "UPDATE friend SET groupid = 0 WHERE groupid = %d AND userid = %d", $groupid, $user->id ) );
 	$db->query( $db->prepare( "DELETE FROM friend_group WHERE id = %d", $groupid ) );
 }
 

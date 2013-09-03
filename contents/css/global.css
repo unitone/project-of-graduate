@@ -39,8 +39,6 @@ a img {
 }
 
 .nav {
-	width:970px;
-	margin:0;
 	height: 28px;
 	background-color: #005EAC;
 }
@@ -49,7 +47,9 @@ a img {
 	float: left;
 	font-size: 14px;
 	color: #FFFFFF;
+	margin-top: -4px;
 	padding: 5px 10px;
+	
 }
 
 .nav a:hover {
@@ -58,6 +58,7 @@ a img {
 }
 
 .nav ul{
+	margin: 5px;
 	padding: 0;
 }
 .nav ul li {

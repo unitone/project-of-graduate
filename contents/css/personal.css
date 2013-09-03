@@ -1,0 +1,11 @@
+.show_photo {
+	float: left;
+}
+.show_photo dl {
+	float: left;
+	margin: 5px;
+}
+
+.show_photo dl dd{
+	text-align: left;
+}

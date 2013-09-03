@@ -11,7 +11,6 @@ function check_auth() {
 	if ( ! isset( $_COOKIE['key'] ) ) {
 		header( 'Location: index.php' );
 	}
-	
 }
 
 function get_current_time( $format = 'Y-m-d h:i:s' ) {

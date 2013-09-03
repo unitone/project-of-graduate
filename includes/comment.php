@@ -19,6 +19,12 @@ function delete_comment( $id ) {
 	$db->query( $db->prepare( "DELETE FROM comment WHERE postid = %d", $id ) );
 }
 
+function delete_single_comment( $id ) {
+	global $db;
+		
+	$db->query( $db->prepare( "DELETE FROM comment WHERE id = %d", $id ) );
+}
+
 function comment_show( $post ) {
 	global $db;
 	
@@ -31,9 +37,15 @@ function comment_show( $post ) {
 	foreach( $results as $result ) {
 		$user = get_user_by_id( $result['userid'] );
 		$output .= '<div class="comment clear"><dl>';
-		$output .= '<dt><img src="user/image/men_tiny.gif" style="width: 30px;height: 30px;margin-right: 5px"></dt>';
-		$output .= '<dd>' . $user['name'] . ' : ' . $result['content'] . '</dd>';
-		$output .= '<dd><span>' . $result['date'] . '</span> - <a href="?action=delete&type=' .$result['type']. '&id=' . $result['id'] . '">删除</a></dd>';
+		
+		if ( $user['photo'] == "" ) {
+			$output .= '<dt><img src="user/image/men_tiny.gif" style="width: 30px;height: 30px;margin-right: 5px"></dt>';
+		} else {
+			$output .= '<dt><img src="' . $user['photo'] . '" style="width: 30px;height: 30px;margin-right: 5px"></dt>';
+		}
+
+		$output .= '<dd><a href="user.php?sid=' . $user['id'] . '" target="_blank">' . $user['name'] . '</a> : ' . $result['content'] . '</dd>';
+		$output .= '<dd><span>' . $result['date'] . '</span> - <a href="?action=delcomment&commentid=' . $result['id'] . '&id=' . $result['postid'] . '">删除</a></dd>';
 		$output .= '</dl></div>';
 	}
 	$output .= '</div>';

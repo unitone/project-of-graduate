@@ -109,14 +109,11 @@ show_nav();
 show_post_form();
 ?>
 </div>
-<?php show_footer(); ?>
-</div>
 <script type="text/javascript">
 	function add_category() {
 		var html = "";
 		html += '<input type="text" id="newcategory" name="newcategory" />';
-		window.newcategory.innerHTML += html; 
+	window.newcategory.innerHTML += html; 
 	}
 </script>
-</body>
-</html>
+<?php show_footer(); ?>

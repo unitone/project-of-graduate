@@ -1,7 +1,7 @@
 .content {
 	float: left;
-	width: 758px;
-	padding: 5px;
+	width: 788px;
+	padding: 10px;
 	border-left: 1px #B3B3B3 solid;
 	border-bottom: 1px #B3B3B3 solid;
 	border-right: 1px #B3B3B3 solid;
@@ -9,12 +9,6 @@
 
 .group-c {
 	padding: 5px;
-}
-
-ul.create-group {
-	padding:0;
-	margin:0;
-	display:inline;
 }
 
 .left-sidebar h1 {
@@ -30,7 +24,6 @@ ul.create-group {
 }
 
 .left-sidebar ul {
-	display:inline;
 	padding-top: 10px;
 	margin: 0;
 }

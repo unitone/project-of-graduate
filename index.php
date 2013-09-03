@@ -89,8 +89,9 @@ p a:hover {
 <div class="login-form">	
 	<form method="post" action="">		
 		<div class="login">
-		<p><label for="user_email" >电子邮件</label><br /><input type="text" id="user_email" name="user_email" value="user1@user.com"/></p>
-		<p><label for="user_password" >密码</label><br /><input type="password" id="user_password" name="user_password" value="user"/></p>
+		<p>漓江学院交友网登陆</p>
+		<p><label for="user_email" >电子邮件</label><br /><input type="text" id="user_email" name="user_email" /></p>
+		<p><label for="user_password" >密码</label><br /><input type="password" id="user_password" name="user_password" /></p>
 		<p><input type="submit" name="submit" value="登陆" /><a href="register.php">注册</a></p>
 		<input type="hidden" name="do" value="signon" />
 		<?php echo $message; ?>

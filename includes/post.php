@@ -13,7 +13,8 @@ function add_category( $name ) {
 	$data['title'] = $name;
 	$data['userid'] = $user->id;
 	
-	return $db->insert( "category", $data );
+	$db->insert( "category", $data );
+	return $name;
 }
 
 function get_current_post( $id ) {
@@ -59,7 +60,8 @@ function write_post( $title, $content, $categoryid, $limit = 2 ) {
 		return;
 	
 	if ( isset( $_POST['newcategory'] ) && ! is_null( $_POST['newcategory'] ) ) {
-		$categoryid = add_category( $_POST['newcategory'] );
+		$category = add_category( $_POST['newcategory'] );
+		$categoryid = get_category_by_name( $category );
 	}
 	
 	$date = date( 'y-m-d h:i:s', time() );
@@ -90,10 +92,10 @@ function update_post( $id ) {
 	$db->update( "post", $datas, $where );
 }
 
-function delete_post( $id ) {
+function delete( $id, $type ) {
 	global $db, $user;
 	
-	$db->query( $db->prepare( "DELETE FROM post WHERE id = %d AND userid = %d AND type = 1", $id, $user->id ) );
+	$db->query( $db->prepare( "DELETE FROM post WHERE id = %d AND userid = %d AND type = %d", $id, $user->id, $type ) );
 	
 	delete_comment( $id );
 }
@@ -109,14 +111,6 @@ function add_feel( $content, $user_id = 0 ) {
 		$user_id = $_COOKIE['key'];
 
 	$db->query( $db->prepare( "INSERT INTO post(userid,content,type,authority,date) VALUES(%d,%s,%d,%d,NOW())", $user_id, $content, 2, 2 ) );
-}
-
-function delete_feel( $id ) {
-	global $db, $user;
-	
-	$db->query( $db->prepare( "DELETE FROM post WHERE id = %d AND type = 2 AND userid = %d", $id, $user->id ) );
-	
-	delete_comment( $id );
 }
 
 function get_categories() {
@@ -161,8 +155,21 @@ function get_category_by_id( $id ) {
 	}
 }
 
+function get_category_by_name( $name ) {
+	global $db, $user;
+	
+	$cate = $db->get_results( $db->prepare( "SELECT * FROM category WHERE title = %s AND userid = %d LIMIT 1", $name, $user->id ), ARRAY_A );
+	if ( empty( $cate ) ) {
+		return '默认分类';
+	} else {
+		return $cate[0]['id'];
+	}
+}
+
 function show_feel_items( $where = 'home' ) {
 	global $db, $user;
+	$page = isset( $_REQUEST['p'] ) ? $_REQUEST['p'] : 1;
+	$total = 5;
 	
 	$query = 'SELECT * FROM post WHERE userid = ' . $user->id;
 	
@@ -175,7 +182,9 @@ function show_feel_items( $where = 'home' ) {
 		}
 	}
 	
-	$query .= " ORDER BY `date` DESC LIMIT 0, 15";
+	$limit = ' LIMIT ' . $total * ($page - 1) . ', ' . $total * $page;
+	$query .= " ORDER BY `date` DESC";
+	$query .= $limit;
 	
 	
 	$posts = $db->get_results( $db->prepare( $query ), ARRAY_A );
@@ -188,6 +197,8 @@ function show_feel_items( $where = 'home' ) {
 			postl_comment_form( $post);
 		}
 		echo '</div>';
+	} else {
+		return;
 	}
 }
 
@@ -196,7 +207,7 @@ function show_post_item( $post ) {
 	
 	$post_user = get_user_by_id( $post['userid'] ); ?>
 
-		<p class="feel-user"><?php echo $post_user['name']; ?> - <span><?php echo $post['date']; ?></span>
+		<p class="feel-user"><a href="user.php?sid=<?php echo $post_user['id']; ?>" target="_blank"><?php echo $post_user['name']; ?></a> - <span><?php echo $post['date']; ?></span>
 <?php
 		if ( $post['userid'] == $user->id )
 			echo '<span> - <a href="?action=delete&type=' . $post['type'] . '&id=' . $post['id'] . '">删除</a></span>';

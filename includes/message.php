@@ -3,6 +3,9 @@
 function send_message( $title, $content, $toid ) {
 	global $db, $user;
 	
+	if ( strlen( $title ) <= 0 || strlen( $content ) <= 0 )
+		return false;
+	
 	$data = array();
 	$data['fromid'] = $user->id;
 	$data['toid'] = $toid;
@@ -11,6 +14,7 @@ function send_message( $title, $content, $toid ) {
 	$data['date'] = get_current_time();
 	
 	$db->insert( 'message', $data );
+	return true;
 }
 
 function delete_message( $id ) {
@@ -38,6 +42,7 @@ function show_message_list() {
 		
 	$output = '<div class="message-list"><table cellspacing="0">';
 	foreach ( $results as $result ) {
+		$fromuser = get_user_by_id( $result['fromid'] );
 		$output .= '<tr><td class="td-title"><a href="?action=show&id=' . $result['id'] . '">' . $result['title'] . '</a></td>';
 		$output .= '<td class="td-delete"><a href="?action=delete&id=' . $result['id'] . '">删除</a></td></tr>';
 	}
@@ -86,7 +91,7 @@ function contract_people( $toid ) {
 }
 
 function message_form( $toid = null ) { ?>
-<form method="post">
+<form method="post" action="" onsubmit="return checkform()">
 	<table>
 		<tr><td><label>收件人</label></td><td><?php contract_people( $toid ); ?></td></tr>
 		<tr><td><label>主题</label></td><td><input type="text" name="title" style="width: 380px" /></td></tr>
@@ -95,6 +100,22 @@ function message_form( $toid = null ) { ?>
 	</table>
 	<input type="hidden" name="do" value="post" />
 </form>
+<script type="text/javascript">
+function checkform() {
+	var title = document.getElementById("title").value;
+	var content = document.getElementById("content").value;
+
+	if ( title == "" ) {
+		alert( "请输入标题" );
+		return false;
+	}
+	if ( content == "" ) {
+		alert( "请输入内容" );
+		return false;
+	}
+	return true;
+}
+</script>
 <?php
 }
 	

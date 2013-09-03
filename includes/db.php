@@ -63,12 +63,12 @@ class db {
 		if ( function_exists( 'mysql_set_charset' ) && ! empty( $this->charset ) ) {
 				mysql_set_charset( $this->charset, $this->dbh );
 				$this->real_escape = true;
-			} else {
-				$query = $this->prepare( 'SET NAMES %s', $this->charset );
-				if ( ! empty( $this->collate ) )
-					$query .= $this->prepare( ' COLLATE %s', $this->collate );
-				mysql_query( $query, $this->dbh );
-			}
+		} else {
+			$query = $this->prepare( 'SET NAMES %s', $this->charset );
+			if ( ! empty( $this->collate ) )
+				$query .= $this->prepare( ' COLLATE %s', $this->collate );
+			mysql_query( $query, $this->dbh );
+		}
 
 		$this->ready = true;
 
